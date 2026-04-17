@@ -1,0 +1,20 @@
+[phases.setup]
+nixPkgs = ['git', 'python311', 'curl']
+
+[phases.build]
+cmds = [
+    'mkdir -p /app/state /app/workspace',
+    'git clone https://github.com/NousResearch/hermes-agent.git /hermes-agent || echo "Hermes agent already exists"',
+    'pip install -r /hermes-agent/requirements.txt',
+    'pip install -r requirements.txt'
+]
+
+[phases.setup.env]
+HERMES_WEBUI_AGENT_DIR = "/hermes-agent"
+HERMES_WEBUI_HOST = "0.0.0.0"
+HERMES_WEBUI_STATE_DIR = "/app/state"
+HERMES_WEBUI_DEFAULT_WORKSPACE = "/app/workspace"
+PYTHONUNBUFFERED = "1"
+
+[start]
+cmd = 'python server.py'
