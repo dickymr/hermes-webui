@@ -26,7 +26,7 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 # Set environment variables
 ENV HERMES_WEBUI_AGENT_DIR=/hermes-agent
 ENV HERMES_WEBUI_HOST=0.0.0.0
-ENV HERMES_WEBUI_PORT=8787
+ENV HERMES_WEBUI_PORT=${PORT:-8787}
 ENV HERMES_WEBUI_STATE_DIR=/app/state
 ENV HERMES_WEBUI_DEFAULT_WORKSPACE=/app/workspace
 ENV PYTHONUNBUFFERED=1
@@ -34,9 +34,7 @@ ENV PYTHONUNBUFFERED=1
 # Expose port
 EXPOSE 8787
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8787/health || exit 1
+# Health check (disabled - Railway handles this)
 
 # Run server
 CMD ["python", "server.py"]
